@@ -1,5 +1,6 @@
 import express from 'express';
 import { db } from '../config/database.js';
+import { validateName, validateId } from '../middleware/validation.js';
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', validateId, async (req, res) => {
   try {
     const [rows] = await db.query('SELECT * FROM trims WHERE id_trim = ?', [req.params.id]);
     if (rows.length === 0) {
@@ -24,7 +25,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', validateName, async (req, res) => {
   try {
     const { name } = req.body;
     const [result] = await db.query('INSERT INTO trims (name) VALUES (?)', [name]);
@@ -34,7 +35,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', validateId, validateName, async (req, res) => {
   try {
     const { name } = req.body;
     await db.query('UPDATE trims SET name = ? WHERE id_trim = ?', [name, req.params.id]);
@@ -44,7 +45,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', validateId, async (req, res) => {
   try {
     await db.query('DELETE FROM trims WHERE id_trim = ?', [req.params.id]);
     res.json({ message: 'Trim deleted' });

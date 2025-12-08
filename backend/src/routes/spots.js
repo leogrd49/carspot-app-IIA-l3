@@ -1,5 +1,6 @@
 import express from 'express';
 import { db } from '../config/database.js';
+import { validateSpot } from '../middleware/validation.js';
 
 const router = express.Router();
 
@@ -62,7 +63,7 @@ router.get('/stats/brands', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', validateSpot, async (req, res) => {
   try {
     const { id_user, id_car, location } = req.body;
     await db.query(
@@ -78,6 +79,10 @@ router.post('/', async (req, res) => {
 router.put('/:id_user/:id_car', async (req, res) => {
   try {
     const { location } = req.body;
+
+    if (!location || location.trim().length === 0) {
+      return res.status(400).json({ error: 'Location is required' });
+    }
     await db.query(
       'UPDATE Spot SET location = ?, spoted_at = NOW() WHERE id_user = ? AND id_car = ?',
       [location, req.params.id_user, req.params.id_car]

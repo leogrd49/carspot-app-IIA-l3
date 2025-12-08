@@ -9,6 +9,8 @@ import specsRouter from './routes/specs.js';
 import carsRouter from './routes/cars.js';
 import spotsRouter from './routes/spots.js';
 import { db } from './config/database.js';
+import { rateLimiter } from './middleware/rateLimiter.js';
+import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 
 dotenv.config();
 
@@ -16,7 +18,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+app.use(rateLimiter);
 
 app.use('/api/users', usersRouter);
 app.use('/api/brands', brandsRouter);
@@ -27,8 +30,16 @@ app.use('/api/cars', carsRouter);
 app.use('/api/spots', spotsRouter);
 
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', message: 'CarSpot API is running' });
+  res.json({
+    status: 'ok',
+    message: 'CarSpot API is running',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development'
+  });
 });
+
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 app.listen(PORT, async () => {
   try {

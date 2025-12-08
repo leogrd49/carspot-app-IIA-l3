@@ -1,5 +1,6 @@
 import express from 'express';
 import { db } from '../config/database.js';
+import { validateCar, validateId } from '../middleware/validation.js';
 
 const router = express.Router();
 
@@ -28,7 +29,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', validateId, async (req, res) => {
   try {
     const [rows] = await db.query(`
       SELECT
@@ -56,7 +57,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', validateCar, async (req, res) => {
   try {
     const { id_specs, id_trim, id_model, id_brand } = req.body;
     const [result] = await db.query(
@@ -69,7 +70,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', validateId, validateCar, async (req, res) => {
   try {
     const { id_specs, id_trim, id_model, id_brand } = req.body;
     await db.query(
@@ -82,7 +83,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', validateId, async (req, res) => {
   try {
     await db.query('DELETE FROM cars WHERE id_car = ?', [req.params.id]);
     res.json({ message: 'Car deleted' });

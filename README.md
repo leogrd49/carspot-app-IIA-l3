@@ -2,6 +2,42 @@
 
 Application web complète pour suivre et gérer les observations de voitures exotiques avec dashboard, gestion des spots, catalogue de voitures et profils utilisateurs.
 
+## Documentation Complète
+
+Ce projet comprend une documentation détaillée pour les Bonus 1 et 2 :
+
+- **[BACKEND_ARCHITECTURE.md](BACKEND_ARCHITECTURE.md)** - Architecture backend complète, sécurité, configuration de la base de données
+- **[FRONTEND_ARCHITECTURE.md](FRONTEND_ARCHITECTURE.md)** - Architecture frontend, flux de données, intégration avec le backend
+- **[API_EXAMPLES.md](API_EXAMPLES.md)** - Exemples de requêtes et réponses API avec cURL et JavaScript
+- **[PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)** - Structure détaillée du projet
+- **[QUICKSTART.md](QUICKSTART.md)** - Guide de démarrage rapide
+
+## Bonus 1 : Backend ✅
+
+Le backend est une API REST complète avec :
+- **Framework**: Node.js + Express
+- **Base de données**: MySQL avec pool de connexions
+- **Sécurité**:
+  - Validation des données (middleware personnalisé)
+  - Protection SQL injection (requêtes paramétrées)
+  - Rate limiting (100 req/min)
+  - Gestion des erreurs centralisée
+- **API CRUD**: 7 routes complètes (users, brands, models, trims, specs, cars, spots)
+
+**Voir [BACKEND_ARCHITECTURE.md](BACKEND_ARCHITECTURE.md) et [API_EXAMPLES.md](API_EXAMPLES.md) pour les détails complets.**
+
+## Bonus 2 : Frontend ✅
+
+Le frontend est une SPA React moderne avec :
+- **Framework**: React 18 + Vite.js
+- **UI**: Tailwind CSS + shadcn/ui
+- **Routing**: React Router v6
+- **Intégration backend**: Client HTTP personnalisé via Proxy Vite
+- **Pages interactives**: Dashboard, Spots, Cars, Users
+- **Flux de données**: useState + useEffect avec chargement asynchrone
+
+**Voir [FRONTEND_ARCHITECTURE.md](FRONTEND_ARCHITECTURE.md) pour les détails complets.**
+
 ## Stack Technologique
 
 ### Frontend
