@@ -29,19 +29,19 @@ router.get('/:id/spots', validateId, async (req, res) => {
   try {
     const [rows] = await db.query(`
       SELECT
-        Spot.*,
+        spot.*,
         brands.name as brand_name,
         models.name as model_name,
         trims.name as trim_name,
         specs.*
-      FROM Spot
-      JOIN cars ON cars.id_car = Spot.id_car
+      FROM spot
+      JOIN cars ON cars.id_car = spot.id_car
       JOIN brands ON brands.id_brand = cars.id_brand
       JOIN models ON models.id_model = cars.id_model
       JOIN trims ON trims.id_trim = cars.id_trim
       JOIN specs ON specs.id_specs = cars.id_specs
-      WHERE Spot.id_user = ?
-      ORDER BY Spot.spoted_at DESC
+      WHERE spot.id_user = ?
+      ORDER BY spot.spoted_at DESC
     `, [req.params.id]);
     res.json(rows);
   } catch (error) {

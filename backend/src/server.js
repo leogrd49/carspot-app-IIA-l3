@@ -21,15 +21,15 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(rateLimiter);
 
-app.use('/users', usersRouter);
-app.use('/brands', brandsRouter);
-app.use('/models', modelsRouter);
-app.use('/trims', trimsRouter);
-app.use('/specs', specsRouter);
-app.use('/cars', carsRouter);
-app.use('/spots', spotsRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/brands', brandsRouter);
+app.use('/api/models', modelsRouter);
+app.use('/api/trims', trimsRouter);
+app.use('/api/specs', specsRouter);
+app.use('/api/cars', carsRouter);
+app.use('/api/spots', spotsRouter);
 
-app.get('/health', (req, res) => {
+app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
     message: 'CarSpot API is running',
